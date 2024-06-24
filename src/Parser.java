@@ -25,6 +25,7 @@ public class Parser {
         "Símbolo não aceito: " + arrayOfTokens.get(currentIndex).grafia + "\n"
         + "Linha: " + arrayOfTokens.get(currentIndex).linha
         + " Coluna: " + arrayOfTokens.get(currentIndex).coluna
+        + "\nEsperava " + tokenId + " Recebeu " + arrayOfTokens.get(currentIndex).kind
       );
     }
   }
@@ -116,20 +117,21 @@ public class Parser {
 
   private Node.NodeDeclaracao parse_declaracao() {
     Node.NodeDeclaracao declaracao = new Node.NodeDeclaracao();
-    // declaracao.declaracaoDeVariavel = parse_declaracaoDeVariavel();
+    declaracao.declaracaoDeVariavel = parse_declaracaoDeVariavel();
 
     return declaracao;
   }
 
-  // private Node.NodeDeclaracaoDeVariavel parse_declaracaoDeVariavel() {
-  //   Node.NodeDeclaracaoDeVariavel declaracaoDeVariavel = new Node.NodeDeclaracaoDeVariavel();
+  private Node.NodeDeclaracaoDeVariavel parse_declaracaoDeVariavel() {
+    Node.NodeDeclaracaoDeVariavel declaracaoDeVariavel = new Node.NodeDeclaracaoDeVariavel();
 
-  //   accept(Token.VAR);
-  //   declaracaoDeVariavel.IDs = parse_listaDeIds();
-  //   accept(Token.COLON);
+    accept(Token.VAR);
+    declaracaoDeVariavel.IDs = parse_listaDeIds();
+    accept(Token.COLON);
+    declaracaoDeVariavel.tipo = parse_tipo();
 
-  //   return declaracaoDeVariavel;
-  // }
+    return declaracaoDeVariavel;
+  }
 
   private Node.NodeDeclaracoes parse_declaracoes() {
     Node.NodeDeclaracoes declaracoes = new Node.NodeDeclaracoes();
@@ -301,45 +303,33 @@ public class Parser {
     return comandos;
   }
 
-  // private ArrayList<Node.NodeID> parse_listaDeIds() {
-  //   ArrayList<Node.NodeID> IDs = new ArrayList<>();
+  private ArrayList<Node.NodeID> parse_listaDeIds() {
+    ArrayList<Node.NodeID> IDs = new ArrayList<>();
 
-  //   Node.NodeID ID_aux1 = new Node.NodeID(
-  //     this.arrayOfTokens.get(currentIndex).grafia,
-  //     this.arrayOfTokens.get(currentIndex)
-  //   );
-  //   ID_aux1.valor = arrayOfTokens.get(currentIndex).grafia;
-  //   IDs.add(ID_aux1);
+    Node.NodeID ID_aux1 = new Node.NodeID(
+      this.arrayOfTokens.get(currentIndex).grafia,
+      this.arrayOfTokens.get(currentIndex)
+    );
+    ID_aux1.valor = arrayOfTokens.get(currentIndex).grafia;
+    IDs.add(ID_aux1);
     
-  //   accept(Token.IDENTIFIER);
+    accept(Token.IDENTIFIER);
 
-  //   while (currentTokenId == Token.COMMA) {
-  //     acceptIt();
+    while (currentTokenId == Token.COMMA) {
+      acceptIt();
 
-  //     Node.NodeID ID_aux2 = new Node.NodeID(
-  //       this.arrayOfTokens.get(currentIndex).grafia, 
-  //       this.arrayOfTokens.get(currentIndex)
-  //     );
-  //     ID_aux2.valor = arrayOfTokens.get(currentIndex).grafia;
-  //     IDs.add(ID_aux2);
+      Node.NodeID ID_aux2 = new Node.NodeID(
+        this.arrayOfTokens.get(currentIndex).grafia, 
+        this.arrayOfTokens.get(currentIndex)
+      );
+      ID_aux2.valor = arrayOfTokens.get(currentIndex).grafia;
+      IDs.add(ID_aux2);
 
-  //     accept(Token.IDENTIFIER);
-  //   }
+      accept(Token.IDENTIFIER);
+    }
 
-  //   return IDs;
-  // }
-
-  // private void parse_outros() {
-  //   switch (currentTokenId) {
-  //     case Token.EXCLAMATION:
-  //       acceptIt();
-  //       break;
-  //     default:
-  //       new Erro("Símbolo não aceito: " + arrayOfTokens.get(currentIndex).grafia
-  //       + "Linha: " + arrayOfTokens.get(currentIndex).linha + "\""
-  //     + " Coluna: " + arrayOfTokens.get(currentIndex).coluna);
-  //   }
-  // }
+    return IDs;
+  }
 
   private Node.NodePrograma parse_programa() {
     Node.NodePrograma programaAST = new Node.NodePrograma();
@@ -390,16 +380,16 @@ public class Parser {
     return termo;
   }
 
-  // private Node.NodeTipo parse_tipo() {
-  //   Node.NodeTipo tipo = new Node.NodeTipo();
+  private Node.NodeTipo parse_tipo() {
+    Node.NodeTipo tipo = new Node.NodeTipo();
 
-  //   String tipoString = arrayOfTokens.get(currentIndex).grafia;
-  //   Type tipoType = Type.evaluateString(tipoString);
-  //   tipo.tipoSimples = new Node.NodeTipoSimples(tipoString, tipoType);
+    String tipoString = arrayOfTokens.get(currentIndex).grafia;
+    // Type tipoType = Type.evaluateString(tipoString);
+    tipo.tipoSimples = new Node.NodeTipoSimples(tipoString);
 
-  //   accept(Token.SIMPLETYPE);
-  //   return tipo;
-  // }
+    accept(Token.SIMPLETYPE);
+    return tipo;
+  }
 
   private Node.NodeVariavel parse_variavel() {
     

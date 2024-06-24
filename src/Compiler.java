@@ -20,7 +20,7 @@ public class Compiler {
 				arrayOfTokens.add(counter, currentToken);
 
 				counter++;
-			} while (scanner.isEOF() == false);
+			} while (!scanner.isEOF());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

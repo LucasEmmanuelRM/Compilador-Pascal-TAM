@@ -37,7 +37,7 @@ public class Token {
         IGUAL = 27,
 
         SIMPLETYPE = 28, PROGRAM = 29, ERRO = 30,
-        COMMA = 31;
+        COMMA = 31, PERIOD = 32;
 
     // Essa parte é a grafia correspondente a cada token, na mesma ordem acima
     private final static String[] grafias = {
@@ -54,7 +54,7 @@ public class Token {
         "=",
 
         "<tipo-simples>", "program", "<erro>",
-        ","
+        ",", "."
     };
 
 }

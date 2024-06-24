@@ -5,7 +5,6 @@ public class Erro {
             throw new Exception(message);
         } catch (Exception e) {
             System.out.println("\nERRO: " + e.getMessage());
-            System.exit(1);
         }
     }
 

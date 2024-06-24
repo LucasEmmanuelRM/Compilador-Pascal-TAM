@@ -5,6 +5,7 @@ import java.io.IOException;
 public class Scanner {
     private BufferedReader fileReader;
     private char charCorrente;
+	private int counterToMarkCharacter;
 
     private byte currentKind;
     private StringBuffer grafiaCorrente;
@@ -13,34 +14,43 @@ public class Scanner {
     private int colunaCorrente = 0;
 
     public Scanner(String pathToFile) {
-        try {
-            String currentDirectory = System.getProperty("user.dir");
-            FileReader poorFileReader = new FileReader(currentDirectory + pathToFile);
-            fileReader = new BufferedReader(poorFileReader);
-            getNextCaracter();  // Initialize charCorrente
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
+		counterToMarkCharacter = 0;
+		try {
+			String currentDirectory = System.getProperty("user.dir");
 
-    public boolean isEOF() throws IOException {
-        fileReader.mark(1);
-        int readResult = fileReader.read();
-        fileReader.reset();
-        return readResult == -1;
-    }
+			FileReader poorFileReader = new FileReader(
+				currentDirectory + pathToFile
+			);
+			BufferedReader fileReader = new BufferedReader(poorFileReader);
+			int character;
+			// Lê o arquivo caractere por caractere
+			if((character = fileReader.read()) != -1) {
+				this.charCorrente = (char)character;
+			}
+			this.fileReader = fileReader;
+
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public boolean isEOF() throws IOException {	
+		fileReader.mark(counterToMarkCharacter);
+		counterToMarkCharacter++;
+
+		if(fileReader.read() != -1) {
+			fileReader.reset();
+			return false;
+		}
+		return true;
+	}
 
     public void getNextCaracter() {
         try {
             int character = fileReader.read();
             if (character != -1) {
-                charCorrente = (char) character;
-                if (charCorrente == '\n') {
-                    linhaCorrente++;
-                    colunaCorrente = 0;
-                } else {
-                    colunaCorrente++;
-                }
+                this.charCorrente = (char) character;
+                colunaCorrente++;
             } else {
                 charCorrente = '\000';  // End of file character
             }
@@ -49,6 +59,28 @@ public class Scanner {
             charCorrente = '\000';  // Handle IO exception by setting to EOF
         }
     }
+
+    public void readFile(String pathToFile) {
+		// Cria um objeto FileReader que representa o arquivo que queremos ler
+		try {
+			String currentDirectory = System.getProperty("user.dir");
+      System.out.println("O diretório atual é: " + currentDirectory);
+
+			FileReader fileReader = new FileReader(
+				currentDirectory + pathToFile
+			);
+			int character;
+			// Lê o arquivo caractere por caractere
+			while ((character = fileReader.read()) != -1) {
+				System.out.print((char) character);
+			}
+			System.out.println();
+
+			fileReader.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
     private void takeIt() {
         grafiaCorrente.append(charCorrente);
@@ -85,6 +117,16 @@ public class Scanner {
                 case "false": return Token.BOOLLITERAL;
                 case "or": return Token.SOMA;
                 case "and": return Token.MULT;
+                case "while": return Token.WHILE;
+                case "var": return Token.VAR;
+                case "then": return Token.THEN;
+                case "let": return Token.LET;
+                case "in": return Token.IN;
+                case "if": return Token.IF;
+                case "end": return Token.END;
+                case "else": return Token.ELSE;
+                case "do": return Token.DO;
+                case "begin": return Token.BEGIN;
                 default: if (isSimpleType(grafiaCorrente.toString())) {
                     return Token.SIMPLETYPE;
                 }
@@ -121,28 +163,48 @@ public class Scanner {
             case '>': takeIt(); return Token.MAIOR;
             case '=': takeIt(); return Token.IGUAL;
             case ',': takeIt(); return Token.COMMA;
+            case '.': takeIt(); return Token.PERIOD;
             case '\000': takeIt(); return Token.EOT;
-            default: takeIt(); return Token.ERRO;
+            default: break;
         }
+
+        takeIt();
+        return Token.ERRO;
     }
 
-    private void scanSeparator() {
-        while (charCorrente == ' ' || charCorrente == '\n' || charCorrente == '\t' || charCorrente == '!') {
-            if (charCorrente == '!') {
+    private boolean scanSeparator(){
+        switch (charCorrente) {
+            case '\n':
+                takeIt();
+                linhaCorrente++;
+                colunaCorrente = 0;
+                return true;
+            case '\t':
+                takeIt();
+                colunaCorrente += 2;
+                return true;
+            case '!':
                 takeIt();
                 while (charCorrente != '\n' && charCorrente != '\000') {
                     takeIt();
                 }
-            } else {
-                getNextCaracter();
-            }
+                return true;
+            case ' ':
+                takeIt();
+                return true;
+            default:
+                return false;
         }
     }
 
     public Token scan() {
-        scanSeparator();
-        grafiaCorrente = new StringBuffer();
+        while(scanSeparator()) {
+            // Continuar enquanto houver separadores
+        }
+        grafiaCorrente = new StringBuffer("");
+        int colunaInicial = colunaCorrente;
         currentKind = scanToken();
-        return new Token(currentKind, grafiaCorrente.toString(), linhaCorrente, colunaCorrente);
+        // System.out.printf("Scanned token: kind=%d, grafia=%s, line=%d, column=%d\n", currentKind, grafiaCorrente.toString(), linhaCorrente, colunaInicial);
+        return new Token(currentKind, grafiaCorrente.toString(), linhaCorrente, colunaInicial);
     }
 }
