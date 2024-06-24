@@ -11,6 +11,7 @@ public class Compiler {
 		Scanner scanner = new Scanner(fileName);
 		int counter = 0;
 		ArrayList<Token> arrayOfTokens = new ArrayList<>();
+		Node.NodePrograma programaAST = null;
 
 		// Análise léxica
 		try {
@@ -28,11 +29,19 @@ public class Compiler {
 			if(arrayOfTokens.get(i).kind == Token.ERRO) {
 				Token token = arrayOfTokens.get(i);
 				new Erro(
-					"\n" + "Token " + token.grafia + " inválido" + "\n" + 
+					"\n" + "Token \"" + token.grafia + "\" inválido" + "\n" + 
 					"Linha: " + token.linha + " Coluna: " + token.coluna + "\n"
 				);
 			}
 		}
-        System.out.println("yo");
+
+		// Análise Sintática
+		Parser sintaticParser = new Parser(arrayOfTokens);
+		programaAST = sintaticParser.parse();
+
+		// Printagem da AST (Árvore sintática abstrata)	
+		System.out.println("");
+		Printer printer = new Printer();
+		printer.print(programaAST);
 	}
 }
