@@ -30,14 +30,14 @@ public class Token {
         WHILE = 12, SEMICOLON = 13, COLON = 14,
   
         BECOMES = 15, IS = 16, LPAREN = 17,
-        RPAREN = 18, EOT = 19, EXCLAMATION = 20,
+        RPAREN = 18, EOT = 19,
   
-        SOMA = 21, SUB = 22, MULT = 23,
-        DIV = 24, MENOR = 25, MAIOR = 26,
-        IGUAL = 27,
+        SOMA = 20, SUB = 21, MULT = 22,
+        DIV = 23, MENOR = 24, MAIOR = 25,
+        IGUAL = 26,
 
-        SIMPLETYPE = 28, PROGRAM = 29, ERRO = 30,
-        COMMA = 31, PERIOD = 32;
+        SIMPLETYPE = 27, PROGRAM = 28, ERRO = 29,
+        COMMA = 30, PERIOD = 31;
 
     // Essa parte é a grafia correspondente a cada token, na mesma ordem acima
     private final static String[] grafias = {
@@ -47,7 +47,7 @@ public class Token {
         "while", ";", ":",
 
         ":=", "~", "(",
-        ")", "<eot>", "!",
+        ")", "<eot>",
 
         "+", "-", "*",
         "/", "<", ">",

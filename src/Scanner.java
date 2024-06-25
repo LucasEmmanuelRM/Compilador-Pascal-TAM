@@ -156,7 +156,6 @@ public class Scanner {
             case ';': takeIt(); return Token.SEMICOLON;
             case '(': takeIt(); return Token.LPAREN;
             case ')': takeIt(); return Token.RPAREN;
-            case '!': takeIt(); return Token.EXCLAMATION;
             case '+': takeIt(); return Token.SOMA;
             case '-': takeIt(); return Token.SUB;
             case '*': takeIt(); return Token.MULT;
