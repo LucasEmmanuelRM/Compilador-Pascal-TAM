@@ -176,6 +176,7 @@ public class Scanner {
 
     private boolean scanSeparator(){
         switch (charCorrente) {
+            case '\r':
             case '\n':
                 takeIt();
                 linhaCorrente++;
