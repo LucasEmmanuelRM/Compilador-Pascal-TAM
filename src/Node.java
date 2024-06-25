@@ -271,7 +271,7 @@ public class Node {
         public String tipo;
         public Type tipoType; 
       
-        public NodeTipoSimples(String tipo, Type tipotype) {
+        public NodeTipoSimples(String tipo, Type tipoType) {
           this.tipo = tipo;
           this.tipoType = tipoType;
         }

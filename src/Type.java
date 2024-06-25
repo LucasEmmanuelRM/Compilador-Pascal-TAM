@@ -7,10 +7,12 @@ public class Type {
         this.kind = kind;
     }
 
+    @Override
     public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
         Type otherType = (Type) other;
-
-        return (this.kind == otherType.kind);
+        return this.kind == otherType.kind;
     }
 
     public static String convertTypeToString(byte tipo) {
@@ -28,10 +30,10 @@ public class Type {
         Type tipo1, Type tipo2, Node.NodeOperador operador
     ) {
         if(tipo1 == null) {
-            System.out.println("Tipo1 é NULL!");
+            throw new IllegalArgumentException("Tipo1 é NULL!");
         }
         if(tipo2 == null) {
-            System.out.println("Tipo2 é NULL!");
+            throw new IllegalArgumentException("Tipo2 é NULL!");
         }
 
         byte kind1 = tipo1.kind;
@@ -68,15 +70,17 @@ public class Type {
     }
 
     public static Type evaluateString(String tipoString) {
-        Type tipo = null;
-
-        if (tipoString.equals("boolean")) {
-            tipo = new Type(Type.BOOL);
-
-        } else if (tipoString.equals("integer")) {
-            tipo = new Type(Type.INT);
-
+        if (tipoString == null) {
+            throw new IllegalArgumentException("tipoString é NULL!");
         }
-        return tipo;
+
+        switch (tipoString) {
+            case "boolean":
+                return new Type(Type.BOOL);
+            case "integer":
+                return new Type(Type.INT);
+            default:
+                return null;
+        }
     }
 }
