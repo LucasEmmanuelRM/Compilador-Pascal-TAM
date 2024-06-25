@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Compiler {
 
-	public static String fileName = "/src/Teste.txt";
+	public static String fileName = "/src/Teste_Fonte.txt";
 
 	/**
 	 * @param args the command line arguments
@@ -50,7 +50,7 @@ public class Compiler {
 
 		// Geração de código
 		Coder Coder = new Coder();
-		Coder.openFile("Teste_Compilado.txt");
+		Coder.openFile("src/Teste_Objeto.txt");
 		Coder.printCode(programaAST);
 		Coder.closeFile();
 	}
