@@ -1,0 +1,7 @@
+program codigo;
+var variavel: integer;
+
+begin
+    variavel := 10 + 5;
+end
+.
