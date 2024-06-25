@@ -126,6 +126,10 @@ public class Node {
         public void visit(Visitor visitor) {
           visitor.visit_NodeExpressao(this);
         }
+
+        public Type getType(Visitor visitor) {
+          return visitor.getType_NodeExpressao(this);
+        }
       }
 
 
@@ -137,6 +141,10 @@ public class Node {
       
         public void visit(Visitor visitor) {
           visitor.visit_NodeExpressaoSimples(this);
+        }
+
+        public Type getType(Visitor visitor) {
+          return visitor.getType_NodeExpressaoSimples(this);
         }
     }
 
@@ -165,9 +173,11 @@ public class Node {
 
     public static class NodeLiteral extends NodeFator {
         public String valor;
+        public Type tipo;
       
-        public NodeLiteral(String valor) {
+        public NodeLiteral(String valor, Type tipo) {
           this.valor = valor;
+          this.tipo = tipo;
         }
       
         public void visit(Visitor visitor) {
@@ -259,9 +269,11 @@ public class Node {
 
     public static class NodeTipoSimples {
         public String tipo;
+        public Type tipoType; 
       
-        public NodeTipoSimples(String tipo) {
+        public NodeTipoSimples(String tipo, Type tipotype) {
           this.tipo = tipo;
+          this.tipoType = tipoType;
         }
       
         public void visit(Visitor visitor) {
@@ -272,6 +284,7 @@ public class Node {
 
     public static class NodeVariavel extends NodeFator {
         public NodeID ID;
+        public Type tipo;
         public Token token;
       
         public NodeVariavel(NodeID ID, Token token) {

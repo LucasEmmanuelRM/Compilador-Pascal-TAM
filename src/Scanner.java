@@ -12,6 +12,8 @@ public class Scanner {
 
     private int linhaCorrente = 1;
     private int colunaCorrente = 0;
+    
+    public IdentificationTable table;
 
     public Scanner(String pathToFile) {
 		counterToMarkCharacter = 0;

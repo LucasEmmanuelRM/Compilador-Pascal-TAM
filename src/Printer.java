@@ -289,4 +289,23 @@ public class Printer implements Visitor {
     }
   }
   
+  public Type getType_NodeExpressao(Node.NodeExpressao expressao) {
+    return null;
+  }
+  public Type getType_NodeExpressaoSimples(Node.NodeExpressaoSimples expressao) {
+    return null;
+  }
+  public Type getType_NodeFator(Node.NodeFator fator) {
+    return null;
+  }
+  public Type getType_NodeLiteral(Node.NodeLiteral literal) {
+    return null;
+  }
+  public Type getType_NodeTermo(Node.NodeTermo termo) {
+    return null;
+  }
+  public Type getType_NodeVariavel(Node.NodeVariavel variavel) {
+    return null;
+  }
+
 }

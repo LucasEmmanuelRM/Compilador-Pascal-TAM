@@ -43,5 +43,15 @@ public class Compiler {
 		System.out.println("");
 		Printer printer = new Printer();
 		printer.print(programaAST);
+
+		// Análise de contexto
+		Checker checker = new Checker();
+		checker.check(programaAST);
+
+		// Geração de código
+		Coder Coder = new Coder();
+		Coder.openFile("Teste_Compilado.txt");
+		Coder.printCode(programaAST);
+		Coder.closeFile();
 	}
 }

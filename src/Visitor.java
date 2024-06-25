@@ -1,4 +1,3 @@
-
 public interface Visitor {
   public void visit_NodeComando(Node.NodeComando comando);
   public void visit_NodeComandoAtribuicao(Node.NodeComandoAtribuicao comando);
@@ -23,4 +22,11 @@ public interface Visitor {
   public void visit_NodeTipo(Node.NodeTipo tipo);
   public void visit_NodeTipoSimples(Node.NodeTipoSimples tipoSimples);
   public void visit_NodeVariavel(Node.NodeVariavel variavel);
+
+  public Type getType_NodeExpressao(Node.NodeExpressao expressao);
+  public Type getType_NodeExpressaoSimples(Node.NodeExpressaoSimples expressao);
+  public Type getType_NodeFator(Node.NodeFator fator);
+  public Type getType_NodeLiteral(Node.NodeLiteral literal);
+  public Type getType_NodeTermo(Node.NodeTermo termo);
+  public Type getType_NodeVariavel(Node.NodeVariavel variavel);
 }

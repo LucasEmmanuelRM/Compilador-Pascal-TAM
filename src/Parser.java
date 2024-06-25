@@ -1,5 +1,12 @@
 import java.util.ArrayList;
 
+
+
+
+
+
+
+
 public class Parser {
   private int currentTokenId;
 
@@ -25,7 +32,6 @@ public class Parser {
         "Símbolo não aceito: " + arrayOfTokens.get(currentIndex).grafia + "\n"
         + "Linha: " + arrayOfTokens.get(currentIndex).linha
         + " Coluna: " + arrayOfTokens.get(currentIndex).coluna
-        + "\nEsperava " + tokenId + " Recebeu " + arrayOfTokens.get(currentIndex).kind
       );
     }
   }
@@ -220,6 +226,7 @@ public class Parser {
 
   private Node.NodeFator parse_fator() {
     Node.NodeFator fator = null;
+    Type tipo;
     Node.NodeLiteral aux2;
     
     switch (currentTokenId) {
@@ -237,18 +244,16 @@ public class Parser {
         break;
 
       case Token.INTLITERAL:
-        aux2 = new Node.NodeLiteral(
-          arrayOfTokens.get(currentIndex).grafia
-        );
+        tipo = new Type(Type.INT);
+        aux2 = new Node.NodeLiteral(arrayOfTokens.get(currentIndex).grafia, tipo);
         fator = aux2;
 
         acceptIt();
         break;
         
       case Token.BOOLLITERAL:
-        aux2 = new Node.NodeLiteral(
-          arrayOfTokens.get(currentIndex).grafia
-        );
+        tipo = new Type(Type.BOOL);
+        aux2 = new Node.NodeLiteral(arrayOfTokens.get(currentIndex).grafia, tipo);
         fator = aux2;
 
         acceptIt();
@@ -344,6 +349,7 @@ public class Parser {
 
     accept(Token.SEMICOLON);
     programaAST.corpo = parse_corpo();
+    accept(Token.PERIOD);
 
     return programaAST;
   }
@@ -384,8 +390,8 @@ public class Parser {
     Node.NodeTipo tipo = new Node.NodeTipo();
 
     String tipoString = arrayOfTokens.get(currentIndex).grafia;
-    // Type tipoType = Type.evaluateString(tipoString);
-    tipo.tipoSimples = new Node.NodeTipoSimples(tipoString);
+    Type tipoType = Type.evaluateString(tipoString);
+    tipo.tipoSimples = new Node.NodeTipoSimples(tipoString, tipoType);
 
     accept(Token.SIMPLETYPE);
     return tipo;
